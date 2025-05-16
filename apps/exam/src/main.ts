@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { ExamModule } from './exam.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(ExamModule);
@@ -12,7 +13,7 @@ async function bootstrap() {
     },
   });
 
-  // await app.startAllMicroservices(); // 启动 TCP 服务
+  app.useGlobalPipes(new ValidationPipe({ transform: true }));
 
   await app.listen(3002); // 暴露了 3002 的 HTTP 服务
 }
